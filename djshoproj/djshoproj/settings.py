@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'wechat'
 ]
 
 MIDDLEWARE = [
@@ -77,8 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
 	'NAME': 'djshop',
-	'USER': 'helen',
-	'PASSWORD': '123321',
+	'USER': 'developer',
+	'PASSWORD': '123wasd',
 	'HOST': '39.106.98.42',
 	'PORT': '3306',
     }
