@@ -230,9 +230,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    console.log("go into javascript of biaodan")
     $(function(){
-        console.log("go into function in javascript of biaodan")
         var winH = $(window).height();
         var categorySpace = 10;
 
@@ -241,7 +239,6 @@
             window.pageManager.go(id);
         });
         $('.js_category').on('click', function(){
-            console.log(".js_category is clicked!")
             var $this = $(this),
                 $inner = $this.next('.js_categoryInner'),
                 $page = $this.parents('.page'),
