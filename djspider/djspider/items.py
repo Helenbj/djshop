@@ -13,5 +13,6 @@ class DjspiderItem(scrapy.Item):
     title = scrapy.Field()
     lkurl = scrapy.Field()
     imgurl = scrapy.Field()
-    keywords = scrapy.Field()
+    merchant = scrapy.Field()
+    category = scrapy.Field()
     #pass

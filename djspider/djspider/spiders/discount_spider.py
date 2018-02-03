@@ -17,20 +17,22 @@ class DiscountSpiderSpider(scrapy.Spider):
         for category in category_list:
             category_str = category.xpath('h4/text()').extract()[0]
             category_str = category_str.strip('\r').strip('\n').strip(' ')
-            if category_str == '用车' or category_str == '外卖' or category_str == '电影票' or category_str == '团购网站':
-                merchant_list = category_list.xpath('ul/li')
+            if (category_str == '用车') or (category_str == '外卖') or (category_str == '电影票') or (category_str == '团购网站'):
+                item = DjspiderItem()
+                item['category'] = category_str;
+                merchant_list = category.xpath('ul/li')
                 for merchante in merchant_list:
                      tourl = merchante.xpath('span/a/@href').extract()[0]
-                     yield Request(tourl)
+                     yield Request(tourl, meta={'item':item})
             
     def parse(self, response):
-        item = DjspiderItem()
+        item = response.meta['item']
         sel = scrapy.Selector(response)
         li_list = response.xpath('//ul[@id="J_CouponsList"]/li')
         for li in li_list:
             item['title'] = li.xpath('div/h2/span/a/text()').extract()[0].strip('\r').strip('\n').strip(' ')
             item['lkurl'] = li.xpath('div/h2/span/a/@href').extract()[0].strip('\r').strip('\n').strip(' ')
             item['imgurl'] = li.xpath('div/div[@class="coupon"]/span[@class="left"]/span[@class="store-logo"]/a/img/@src').extract()[0].strip('\r').strip('\n').strip(' ')
-            item['keywords'] = li.xpath('div/div[@class="coupon"]/span[@class="left"]/span[@class="store-logo"]/a/img/@title').extract()[0].strip('\r').strip('\n').strip(' ')
+            item['merchant'] = li.xpath('div/div[@class="coupon"]/span[@class="left"]/span[@class="store-logo"]/a/img/@title').extract()[0].strip('\r').strip('\n').strip(' ')
             yield item
         

@@ -13,13 +13,13 @@ class DjspiderPipeline(object):
         self.conn = pymysql.connect(host="39.106.98.42", user="developer", passwd="123wasd", db="djshop", charset="utf8")
 
     def process_item(self, item, spider):
-        title = item["title"]
-        lkurl = item["lkurl"]
-        imgurl = item["imgurl"]
-        keywords = item["keywords"]
+        title = item['title']
+        lkurl = item['lkurl']
+        imgurl = item['imgurl']
+        merchant = item['merchant']
+        category = item['category']
         date = str(datetime.date.today())
-        sql = "insert into wechat_discountinfo(title,lkurl,imgurl,keywords,date) values('" + title + "','" + lkurl + "','" + imgurl + "','" + keywords + "','" + date + "');"
-        print(sql)
+        sql = 'insert into wechat_discountinfo(title,lkurl,imgurl,merchant,category,date) values("' + title + '","' + lkurl + '","' + imgurl + '","' + merchant + '","' + category + '","' + date + '");'
         self.conn.query(sql)
         self.conn.commit()
         return item
