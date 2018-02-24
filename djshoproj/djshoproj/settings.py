@@ -70,18 +70,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'djshoproj.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-	'NAME': 'djshop',
-	'USER': 'developer',
-	'PASSWORD': '123wasd',
-	'HOST': '39.106.98.42',
-	'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '/etc/mysql/my.cnf',
+         },
     }
 }
 

@@ -10,3 +10,6 @@ class DiscountInfo(models.Model):
     category = models.CharField(max_length=100)
     date = models.DateField(default=date.today)
 #    date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title

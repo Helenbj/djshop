@@ -20,6 +20,7 @@ class DjspiderPipeline(object):
         category = item['category']
         date = str(datetime.date.today())
         sql = 'insert into wechat_discountinfo(title,lkurl,imgurl,merchant,category,date) values("' + title + '","' + lkurl + '","' + imgurl + '","' + merchant + '","' + category + '","' + date + '");'
+        print(sql)
         self.conn.query(sql)
         self.conn.commit()
         return item

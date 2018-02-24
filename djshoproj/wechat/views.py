@@ -1,18 +1,19 @@
-#-*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # import module from django & wechat_sdk
 # pip install django && pip install wechat_sdk first
 from __future__ import absolute_import, unicode_literals
 import os
 import wechatpy
-from wechatpy.utils import check_signature
 from wechatpy import WeChatClient
+from wechatpy.utils import check_signature
 from wechatpy.exceptions import (InvalidSignatureException,InvalidAppIdException,)
 from wechatpy.replies import (TextReply,ImageReply,VoiceReply,VideoReply,MusicReply,ArticlesReply,create_reply)
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 import pprint
+from wechat.models import DiscountInfo
 
 TOKEN = 'djshop12345678'
 AES_KEY = 'UXopYywGSIztPwbFAxUoaaKgXTVnJt2yJ03IwgZ2W9G'
@@ -27,11 +28,17 @@ AppSecret = '4274d6c632443800e11ff36826761c03'
 
 # pass csrf check
 @csrf_exempt
-def takeawayPanel(request):
+def takeoutPanel(request):
+    infoset = DiscountInfo.objects.filter(category='外卖')
+    merchantset = DiscountInfo.objects.filter(category='外卖').values('merchant').distinct()
+    imgset = DiscountInfo.objects.filter(category='外卖').values('imgurl').distinct()
     context = {
-        "title":  'takeaway',
+        'title':  'takeout',
+	'infoset': infoset,
+	'merchantset': merchantset,
+        'imgset': imgset,
     }
-    return render(request, 'wechat/takeawayPanel.html', context)
+    return render(request, 'wechat/takeoutPanel.html', context)
 @csrf_exempt
 def moviePanel(request):
     context = {
@@ -86,7 +93,7 @@ def createMenu(request):
                 {
                     "type": "view",
                     "name": "外卖",
-                    "url": "http://39.106.98.42/djshop/wechat/takeawayPanel"
+                    "url": "http://39.106.98.42/djshop/wechat/takeoutPanel"
                 },
                 {
                     "type": "view",
