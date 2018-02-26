@@ -7,12 +7,17 @@
     <title>Takeout</title>
     <link rel="stylesheet" href="{% static 'wechat/weui-1.1.2/dist/style/weui.css' %}"/>
     <link rel="stylesheet" href="{% static 'wechat/weui-1.1.2/dist/example/example.css' %}"/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/0.8.0/css/jquery-weui.min.css">
+    <style type="text/css">
+    	.my_panel_item_hide {
+		display: none;			
+	}
+   </style>
 </head>
 <body ontouchstart>
     <div class="weui-toptips weui-toptips_warn js_tooltips">错误提示</div>
-
-    <div class="container" id="container"></div>
-
+	
+    <div class="container" id="container">
     <script type="text/html" id='tpl_home'>
 <div class="page">
     <div class="page__bd">
@@ -59,40 +64,48 @@
             <div class="weui-navbar">
                 {% for img in imgset %}
                     {% if forloop.first %}
-                        <img class="weui-navbar__item weui-bar__item_on" src="{{ img.imgurl }}">
-   		    {% else %}
-		        <img class="weui-navbar__item" src="{{ img.imgurl}}">
+			<img src="{{ img.imgurl }}" id="navbar{{ forloop.counter }}" class="weui-navbar__item weui-bar__item_on">
+		    {% else %}
+			<img src="{{ img.imgurl }}" id="navbar{{ forloop.counter }}" class="weui-navbar__item">
 		    {% endif%}
 	        {% endfor %}
             </div>
             <div class="weui-tab__panel">
-
+		<!-- Panel -->
+		<div class="weui-panel weui-panel_access">
+		    <!-- <div class="weui-panel__hd">图文组合列表</div> -->
+		    <div class="weui-panel__bd">
+			{% for merchant in merchantset %}
+			    {% if forloop.first %}
+		  	        <div id="panel{{ forloop.counter }}">
+			    {% else %}
+			        <div id="panel{{ forloop.counter }}" class="my_panel_item_hide">
+			    {% endif%}
+			    {% for info in infoset %}
+			        {% if info.merchant == merchant.merchant %}
+				    <a href="{{ info.lkurl }}" class="weui-media-box weui-media-box_appmsg">
+				        <div class="weui-media-box__hd">
+				            <img class="weui-media-box__thumb" src="{{ info.imgurl }}" alt="">
+				        </div>
+				        <div class="weui-media-box__bd">
+					     <h4 class="weui-media-box__title">{{ info.title }}</h4>
+					     <p class="weui-media-box__desc">{{ info.title }}</p>
+				        </div>
+				    </a>
+				{% endif %}
+			    {% endfor %}
+		            </div>
+		        {% endfor %}
+		    </div>
+		    <div class="weui-panel__ft">
+	                <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+			    <div class="weui-cell__bd">查看更多</div>
+			    <span class="weui-cell__ft"></span>
+			</a>    
+		    </div>
+		</div>
             </div>
         </div>
-	
-	<!-- Panel -->
-        <div class="weui-panel weui-panel_access">
-            <!-- <div class="weui-panel__hd">图文组合列表</div> -->
-            <div class="weui-panel__bd">
-                {% for info in infoset %}
-                    <a href="{{ info.lkurl }}" class="weui-media-box weui-media-box_appmsg">
-                        <div class="weui-media-box__hd">
-                            <img class="weui-media-box__thumb" src="{{ info.imgurl }}" alt="">
-                        </div>
-                        <div class="weui-media-box__bd">
-                            <h4 class="weui-media-box__title">{{ info.title }}</h4>
-                            <p class="weui-media-box__desc">{{ info.title }}</p>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-            <div class="weui-panel__ft">
-                <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
-                    <div class="weui-cell__bd">查看更多</div>
-                    <span class="weui-cell__ft"></span>
-                </a>    
-            </div>
-       </div>
 	
        <!-- Tabbar -->
         <div class="weui-tab">
@@ -178,6 +191,8 @@
     $(function(){
         $('.weui-navbar__item').on('click', function () {
             $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+            console.log('#panel'+$(this).attr('id').substring(6))
+	    $('#panel'+$(this).attr('id').substring(6)).removeClass('my_panel_item_hide').siblings().addClass('my_panel_item_hide');
         });
     });
     // Tabbar
@@ -188,7 +203,9 @@
     });
 </script>
 </script>
+</div>
     <script src="{% static 'wechat/weui-1.1.2/dist/example/zepto.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'wechat/weui-1.1.2/dist/example/example.js' %}"></script>    
+    <script type="text/javascript" src="{% static 'wechat/weui-1.1.2/dist/example/example.js' %}"></script>  
+	<script src="https://cdn.bootcss.com/jquery-weui/0.8.2/js/jquery-weui.min.js"></script>
 </body>
 </html>

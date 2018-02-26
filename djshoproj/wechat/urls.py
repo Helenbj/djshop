@@ -7,9 +7,8 @@ urlpatterns = [
 	url(r'^$', views.wechatHome, name='wechatHome'),
 	url(r'^addMaterial$', views.addMaterial, name='addMaterial'),
 	url(r'^createMenu$', views.createMenu, name='createMenu'),
-	url(r'^takeoutPanel$', views.takeoutPanel, name='takeoutPanel'),
-	url(r'^moviePanel$', views.moviePanel, name='moviePanel'),
 	url(r'^groupbuyPanel$', views.groupbuyPanel, name='groupbuyPanel'),
+	url(r'^takeoutPanel$', views.takeoutPanel, name='takeoutPanel'),
 	url(r'^carorderPanel$', views.carorderPanel, name='carorderPanel'),
-	url(r'^shoppingPanel$', views.shoppingPanel, name='shoppingPanel'),
+	url(r'^moviePanel$', views.moviePanel, name='moviePanel'),
 ]

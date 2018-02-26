@@ -28,6 +28,18 @@ AppSecret = '4274d6c632443800e11ff36826761c03'
 
 # pass csrf check
 @csrf_exempt
+def groupbuyPanel(request):
+    infoset = DiscountInfo.objects.filter(category='团购网站')
+    merchantset = DiscountInfo.objects.filter(category='团购网站').values('merchant').distinct()
+    imgset = DiscountInfo.objects.filter(category='团购网站').values('imgurl').distinct()
+    context = {
+        'title':  'takeout',
+	'infoset': infoset,
+	'merchantset': merchantset,
+        'imgset': imgset,
+    }
+    return render(request, 'wechat/groupbuyPanel.html', context)
+@csrf_exempt
 def takeoutPanel(request):
     infoset = DiscountInfo.objects.filter(category='外卖')
     merchantset = DiscountInfo.objects.filter(category='外卖').values('merchant').distinct()
@@ -41,28 +53,28 @@ def takeoutPanel(request):
     return render(request, 'wechat/takeoutPanel.html', context)
 @csrf_exempt
 def moviePanel(request):
+    infoset = DiscountInfo.objects.filter(category='电影票')
+    merchantset = DiscountInfo.objects.filter(category='电影票').values('merchant').distinct()
+    imgset = DiscountInfo.objects.filter(category='电影票').values('imgurl').distinct()
     context = {
-        "title":  'movie',
+        'title':  'takeout',
+	'infoset': infoset,
+	'merchantset': merchantset,
+        'imgset': imgset,
     }
     return render(request, 'wechat/moviePanel.html', context)
 @csrf_exempt
-def groupbuyPanel(request):
-    context = {
-        "title":  'groupbuy',
-    }
-    return render(request, 'wechat/groupbuyPanel.html', context)
-@csrf_exempt
 def carorderPanel(request):
+    infoset = DiscountInfo.objects.filter(category='用车')
+    merchantset = DiscountInfo.objects.filter(category='用车').values('merchant').distinct()
+    imgset = DiscountInfo.objects.filter(category='用车').values('imgurl').distinct()
     context = {
-        "title":  'carorder',
+        'title':  'takeout',
+	'infoset': infoset,
+	'merchantset': merchantset,
+        'imgset': imgset,
     }
     return render(request, 'wechat/carorderPanel.html', context)
-@csrf_exempt
-def shoppingPanel(request):
-    context = {
-        "title":  'shopping',
-    }
-    return render(request, 'wechat/shoppingPanel.html', context)
 
 @csrf_exempt
 def addMaterial(request):
@@ -91,29 +103,24 @@ def createMenu(request):
             "sub_button":
             [
                 {
-                    "type": "view",
-                    "name": "外卖",
-                    "url": "http://39.106.98.42/djshop/wechat/takeoutPanel"
-                },
-                {
-                    "type": "view",
-                    "name": "电影",
-                    "url": "http://39.106.98.42/djshop/wechat/moviePanel"
-                },
-                {
                      "type": "view",
                      "name": "团购",
                      "url": "http://39.106.98.42/djshop/wechat/groupbuyPanel"
                 },
                 {
-                     "type": "view",
-                     "name": "约车",
-                     "url": "http://www.01zhuanche.com/"
+                    "type": "view",
+                    "name": "外卖",
+                    "url": "http://39.106.98.42/djshop/wechat/takeoutPanel"
                 },
                 {
                      "type": "view",
-                     "name": "购物",
-                     "url": "http://you.163.com/"
+                     "name": "约车",
+                     "url": "http://39.106.98.42/djshop/wechat/carorderPanel"
+                },
+                {
+                    "type": "view",
+                    "name": "电影票",
+                    "url": "http://39.106.98.42/djshop/wechat/moviePanel"
                 },
             ]
         },
